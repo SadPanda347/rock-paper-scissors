@@ -2,9 +2,9 @@ const ROCK_VALUE = 1;
 const PAPER_VALUE = 2;
 const SCISSORS_VALUE = 3;
 
-const DRAW_VALUE = 0;
-const PLAYER_WINS_VALUE = 1;
-const COMPUTER_WINS_VALUE = 2;
+const DRAW = 0;
+const PLAYER_WINS = 1;
+const COMPUTER_WINS = 2;
 
 function getComputerChoice() {
   return Math.trunc(Math.random() * 10) % 3 + 1;
@@ -59,20 +59,13 @@ function displayWinner(playerChoice, computerChoice, victoryStatus) {
   let playerChoiceAsString = convertChoiceToString(playerChoice);
   let computerChoiceAsString = convertChoiceToString(computerChoice);
 
-  if (victoryStatus === DRAW_VALUE) {
+  if (victoryStatus === DRAW) {
     console.log("Draw!");
-  } else if (victoryStatus === PLAYER_WINS_VALUE) {
+  } else if (victoryStatus === PLAYER_WINS) {
     console.log(`You win! ${playerChoiceAsString} beats ${computerChoiceAsString}.`)
   } else {
     console.log(`You lose! ${computerChoiceAsString} beats ${playerChoiceAsString}`);
   }
-
-  //If no one wins
-  //  Display Draw!
-  //IF player wins
-  //  Display you win! playerChoice beats computer choice
-  //IF player loses
-  //  Display you lose! computerChoice beats playerChoice
 }
 
 function convertChoiceToString(choice) {
@@ -93,6 +86,49 @@ function convertChoiceToString(choice) {
   }
 
   return choiceAsString;
+}
+
+function declareGameWinner(playerScore, computerScore) {
+  if (playerScore > computerScore) {
+    console.log("You are the final winner!");
+  } else if (computerScore > playerScore) {
+    console.log("The computer is the final winner!");
+  } else {
+    console.log("No one won!");
+  }
+}
+
+function playGame() {
+  let humanScore = 0;
+  let computerScore = 0;
+
+  let playerChoice;
+  let computerChoice;
+  let roundWinner;
+
+  for (let round = 0; round < 5; round++) {
+    console.log(`Round ${round + 1}`);
+
+    playerChoice = getHumanChoice();
+    computerChoice = getComputerChoice();
+
+    console.log(`You chose ${convertChoiceToString(playerChoice)}.`);
+    console.log(`The computer chose ${convertChoiceToString(computerChoice)}.`);
+
+    roundWinner = playRound(playerChoice, computerChoice);
+
+    if (roundWinner === PLAYER_WINS) {
+      humanScore += 1;
+    } else if (roundWinner === COMPUTER_WINS) {
+      computerScore += 1;
+    }
+
+    console.log(`Player Score: ${humanScore}`);
+    console.log(`Computer Score: ${computerScore}`);
+    console.log("*************************************\n\n")
+  }
+
+  declareGameWinner(humanScore, computerScore);
 }
 
 function testGetComputerChoice() {
@@ -136,8 +172,8 @@ function testPlayRound() {
   console.log(`Result: ${result}\nPlayer Choice: scissors\nComputer Choice: rock\n**********`);
 }
 
+/* ************Testing************ */
 // testGetComputerChoice();
-
 
 /*let choice = true;
 while (choice !== null) {
@@ -145,12 +181,11 @@ while (choice !== null) {
   console.log(`Your choice: ${choice}`);
 }*/
 
-testPlayRound();
-
-let humanScore = 0;
-let computerScore = 0;
+//testPlayRound();
 
 
+/* ************Main Code************ */
+playGame();
 
 
 
