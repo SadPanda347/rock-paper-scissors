@@ -1,35 +1,31 @@
-function getComputerChoice() {
-  let choiceAsNumber = Math.trunc(Math.random() * 10) % 3;
+const ROCK_VALUE = 1;
+const PAPER_VALUE = 2;
+const SCISSORS_VALUE = 3;
 
-  let choice = null;
-  switch (choiceAsNumber) {
-    case 0:
-      choice = 'rock';
-      break;
-    case 1:
-      choice = 'paper';
-      break;
-    case 2:
-      choice = 'scissors';
-      break;
-  }
-  return choice;
+function getComputerChoice() {
+  return Math.trunc(Math.random() * 10) % 3 + 1;
 }
 
 function getHumanChoice() {
-  // Prompt user for a choice
   let choice = prompt("Enter rock, paper or scissors: ");
+  choice = choice.toLowerCase();
 
-  if (choice != 'rock' && choice !== 'paper' && choice != 'scissors') {
-    choice = null;
+  let choiceAsNumber;
+  switch (choice) {
+    case 'rock':
+      choiceAsNumber = ROCK_VALUE;
+      break;
+    case 'paper':
+      choiceAsNumber = PAPER_VALUE;
+      break;
+    case 'scissors':
+      choiceAsNumber = SCISSORS_VALUE;
+      break;
+    default:
+      choiceAsNumber = null
   }
 
-  return choice;
-  // If choice is rock, paper or scissors 
-  //   return it
-  // Else
-  //   Tell user input was invalid
-  //   return null 
+  return choiceAsNumber;
 }
 
 function testGetComputerChoice() {
@@ -39,11 +35,24 @@ function testGetComputerChoice() {
   }
 }
 
+function playRound(playerChoice, computerChoice) {
+  let winner;
+  return winner;
+}
+
 // testGetComputerChoice();
 
-let choice = true;
 
+let choice = true;
 while (choice !== null) {
   choice = getHumanChoice();
   console.log(`Your choice: ${choice}`);
 }
+
+let humanScore = 0;
+let computerScore = 0;
+
+
+
+
+
