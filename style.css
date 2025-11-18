@@ -41,7 +41,8 @@ body {
   justify-content: space-around;
 }
 
-.input-button {
+.input-button,
+.reset-button {
   padding: 8px 16px;
   width: 100px;
   height: 100px;
@@ -76,7 +77,16 @@ h2 {
   font-size: 28px;
 }
 
-p {
+label {
   margin: 0px;
   font-size: 18px;
+}
+
+.score-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.final-winner-text {
+  font-weight: bold;
 }
