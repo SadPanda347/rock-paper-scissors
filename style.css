@@ -64,8 +64,11 @@ body {
   margin-bottom: 8px;
 }
 
-.result-text {
+.results-text-container {
+  display: flex;
+  flex-direction: column;
   align-self: center;
+  font-weight: bold;
 }
 
 h2 {

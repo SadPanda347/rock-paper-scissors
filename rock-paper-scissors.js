@@ -1,21 +1,10 @@
-const ROCK_VALUE = 1;
-const PAPER_VALUE = 2;
-const SCISSORS_VALUE = 3;
-
-const DRAW = 0;
-const PLAYER_WINS = 1;
-const COMPUTER_WINS = 2;
-
 function getComputerChoice() {
   return Math.trunc(Math.random() * 10) % 3 + 1;
 }
 
-function getHumanChoice() {
-  let choice = prompt("Enter rock, paper or scissors: ");
-  choice = choice.toLowerCase();
-
+function getPlayerChoice(choiceAsString) {
   let choiceAsNumber;
-  switch (choice) {
+  switch (choiceAsString) {
     case 'rock':
       choiceAsNumber = ROCK_VALUE;
       break;
@@ -37,34 +26,35 @@ function playRound(playerChoice, computerChoice) {
 
   if (Math.abs(playerChoice - computerChoice) === 1) {
     if (playerChoice > computerChoice) { //Player chooses paper and pc chooses rock OR player chooses scissors and pc chooses paper
-      winner = 1;
+      winner = PLAYER_WINS;
     } else { //Player chooses rock and pc chooses paper OR player chooses paper and pc chooses scissors
-      winner = 2;
+      winner = COMPUTER_WINS;
     }
   } else {
     if (playerChoice < computerChoice) { //Player chooses rock, computer chooses scissors
-      winner = 1;
+      winner = PLAYER_WINS;
     } else if (playerChoice > computerChoice) { //Player chooses scissors, computer chooses rock
-      winner = 2;
+      winner = COMPUTER_WINS;
     } else { //Draw
-      winner = 0;
+      winner = DRAW;
     }
   }
 
-  displayWinner(playerChoice, computerChoice, winner);
+  displayRoundWinner(playerChoice, computerChoice, winner);
   return winner;
 }
 
-function displayWinner(playerChoice, computerChoice, victoryStatus) {
+function displayRoundWinner(playerChoice, computerChoice, victoryStatus) {
   let playerChoiceAsString = convertChoiceToString(playerChoice);
   let computerChoiceAsString = convertChoiceToString(computerChoice);
 
+  computerChoiceText.textContent = `Computer chose ${computerChoiceAsString}`;
   if (victoryStatus === DRAW) {
-    console.log("Draw!");
+    victoryStatusText.textContent = `Draw!`;
   } else if (victoryStatus === PLAYER_WINS) {
-    console.log(`You win! ${playerChoiceAsString} beats ${computerChoiceAsString}.`)
+    victoryStatusText.textContent = `You win! ${playerChoiceAsString} beats ${computerChoiceAsString}.`;
   } else {
-    console.log(`You lose! ${computerChoiceAsString} beats ${playerChoiceAsString}`);
+    victoryStatusText.textContent = `You lose! ${computerChoiceAsString} beats ${playerChoiceAsString}`;
   }
 }
 
@@ -131,61 +121,29 @@ function playGame() {
   declareGameWinner(humanScore, computerScore);
 }
 
-function testGetComputerChoice() {
-  for (let i = 0; i < 25; i++) {
-    let choice = getComputerChoice();
-    console.log(`Choice at Interation ${i + 1}: ${choice}`);
-  }
+function playerChooses(event) {
+  const playerChoice = getPlayerChoice(event.target.className.split(" ")[1]);
+  const computerChoice = getComputerChoice();
+  console.log(playRound(playerChoice, computerChoice));
 }
-
-function testPlayRound() {
-  let result;
-
-  console.log("Testing Draws");
-  result = playRound(1, 1);
-  console.log(`Result: ${result}\nPlayer Choice: rock\nComputer Choice: rock\n**********`);
-
-  result = playRound(2, 2);
-  console.log(`Result: ${result}\nPlayer Choice: paper\nComputer Choice: paper\n**********`);
-
-  result = playRound(3, 3);
-  console.log(`Result: ${result}\nPlayer Choice: scissors\nComputer Choice: scissors\n**********`);
-
-  console.log("Testing player victory");
-  result = playRound(1, 3);
-  console.log(`Result: ${result}\nPlayer Choice: rock\nComputer Choice: scissors\n**********`);
-
-  result = playRound(2, 1);
-  console.log(`Result: ${result}\nPlayer Choice: paper\nComputer Choice: rock\n**********`);
-
-  result = playRound(3, 2);
-  console.log(`Result: ${result}\nPlayer Choice: scissors\nComputer Choice: paper\n**********`);
-
-  console.log("Testing player loss");
-  result = playRound(1, 2);
-  console.log(`Result: ${result}\nPlayer Choice: rock\nComputer Choice: paper\n**********`);
-
-  result = playRound(2, 3);
-  console.log(`Result: ${result}\nPlayer Choice: paper\nComputer Choice: scissors\n**********`);
-
-  result = playRound(3, 1);
-  console.log(`Result: ${result}\nPlayer Choice: scissors\nComputer Choice: rock\n**********`);
-}
-
-/* ************Testing************ */
-// testGetComputerChoice();
-
-/*let choice = true;
-while (choice !== null) {
-  choice = getHumanChoice();
-  console.log(`Your choice: ${choice}`);
-}*/
-
-//testPlayRound();
-
 
 /* ************Main Code************ */
-//playGame();
+const ROCK_VALUE = 1;
+const PAPER_VALUE = 2;
+const SCISSORS_VALUE = 3;
 
+const DRAW = 0;
+const PLAYER_WINS = 1;
+const COMPUTER_WINS = 2;
+
+const inputButtons = document.querySelectorAll(".input-button");
+const playerScoreText = document.querySelector(".player-score-text");
+const computerScoreText = document.querySelector(".computer-score-text");
+const computerChoiceText = document.querySelector(".computer-choice-text");
+const victoryStatusText = document.querySelector(".victory-status-text");
+
+inputButtons.forEach(button => {
+  button.addEventListener('click', playerChooses);
+})
 
 
